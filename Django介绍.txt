@@ -14,7 +14,8 @@ Django包含组件如下：
     urls.py: 项目的主路由配置
     wsgi.py: WEB服务网关的配置文件，一个 WSGI 兼容的 Web 服务器的入口，以便运行你的项目。
 
-
+pip install django==2.2.12
+python -m django --version
 django-admin startproject mysitename # 建立项目
 python manage.py runserver 5000 # 启动项目（devlop类型，不具备并发能力）
 

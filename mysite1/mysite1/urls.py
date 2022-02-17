@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 """
@@ -50,6 +50,7 @@ from . import views
 """
 
 urlpatterns = [
+    # path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('page/2003/', views.page_2003),  # http://127.0.0.1:8000/page/2003/
     path('page/<int:pg>', views.pagen_view),
