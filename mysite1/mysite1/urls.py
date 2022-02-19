@@ -54,5 +54,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('page/2003/', views.page_2003),  # http://127.0.0.1:8000/page/2003/
     path('page/<int:pg>', views.pagen_view),
-    path('test_request', views.test_request)
+    path('test_request', views.test_request),
+    path('test_get_post', views.test_get_post),
+    path('test_html1', views.test_html_1),
+    path('test_html2', views.test_html_2),
+    path('test_if_for', views.test_if_for),
+    path('base_index', views.base_view),
+    path('music_index', views.music_view),
+    path('sport_index', views.sport_view),
+
 ]

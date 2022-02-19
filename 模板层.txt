@@ -1,0 +1,114 @@
+模板是可以根据字典数据动态变化的html网页
+模板是可以视图中传递的字典数据动态生成相应的HTML网页
+配置：
+    创建文件夹<项目名>/templates
+    在settings.py中TEMPLATES配置
+        1.BACKEND：指定的模板的引擎
+        2.DIRS：模板的搜索目录（可以是一个或者多个）
+        3.APP_DIRS：是否要在应用中的templates文件夹中搜索模板文件
+        4.OPTIONS：有关模板的选项
+    配置项中需要修改的部分：
+        设置DIRS - 'DIRS':[os.path.join(BASE_DIR, 'templates')]
+加载方式：
+    方式一：
+        from django.template import loader
+        1.通过loader加载模板
+        t = loader.get_template('模板文件名')
+        2.将t转换成HTML字符串
+        html = t.render(字典数据)
+        3.用响应对象将转换的字符串内容返回给浏览器
+        return HttpResponse(html)
+    方式二：
+        使用render()直接加载并响应模板
+        在视图函数中：
+            from django.shortcuts import render
+            return render(request, "模板文件名", 字典数据)
+
+视图函数中可以将python变量封装到字典中传递到模板
+    样例：
+        def xxx_view(request):
+            dic = {"a": "b"}
+        return render(request, "xxx.html", dic)
+    模板中，可以用{{变量名}}的语法，调用视图传进来的变量
+    能传递到模板中的数据类型
+        str int list tuple dict func obj
+    模板中使用变量语法
+        {{变量名}}
+        {{变量名.index}}
+        {{变量名.key}}
+        {{对象.方法}}
+        {{函数名}}
+
+    模板标签
+        作用：将一些服务端的功能嵌入到模板中，例如流程控制等
+
+语法
+    {% 标签 %}
+    ...
+    {% 结束标签 %}
+
+    if标签
+        {% if 条件表达式1 %} #运算符可以用，括号不可以用
+        ...
+        {% elif 条件表达式2 %}
+        ...
+        {% else %}
+        ...
+        {% end if %} #必须要有结束标签
+
+    for标签
+
+        {% for 变量 in 可迭代对象 %}
+            ...循环语句
+        {% empty %}
+            ...可迭代对象无数据时填充的语句
+        {% end for %}
+
+        内置变量 - forloop
+
+        forloop.counter 循环的当前迭代（从1开始）
+        forloop.counter 循环的当前迭代（从0开始）
+        forloop.revcounter  counter值的倒序
+        forloop.first   如果这是第一次通过循环，则为真
+        forloop.last    如果这是最后一次循环，则为真
+        forloop.parentloop  当嵌套循环，parentloop表示外层循环
+
+模板过滤器
+    在变量输出时对变量的值进行处理
+    可以通过使用过滤器来改变变量的输出显示
+    语法
+        {{变量|过滤器1:'参数值1'|过滤器2:'参数值2'...}}
+    常用过滤器
+        lower   字符串转小写
+            {{str|upper}}
+        upper   字符串转大写
+        safe    默认不对变量内的字符串进行html转义
+        add:"n" 将value的值增加n
+        truncatechars:"n"   如果字符串多余指定的数量，那么会被截断，截断的字符串将以可翻译的省略号序列("...")结尾
+            &lt 小于号 &gt 大于号
+
+继承
+    模板继承可以使父模板的内容重用，子模版可以直接继承父模板的全部内容，并可以覆盖父模板中相应的块
+
+    语法 - 父模板中：
+        定义父模板中的块block标签
+        标识出哪些在子模块中是允许被修改的
+        block标签：在父模板中定义，可以在子模版中覆盖
+
+    语法 - 子模板中：
+        继承模板extends标签（写在模板文件的第一行）
+        例如 {% extends 'base.html' %}
+
+        子模版 重写父模板中的内容块
+        {% block block_name %}
+        子模版块中用来覆盖父模板中block_name块的内容
+        {% endblock block_name %}
+
+    重写的覆盖规则
+        不重写，将按照父模板的效果显示
+        重写，将按照重写效果显示
+        注意：
+            模板及继承时，服务端的动态内容无法继承，例如传进去的变量
+
+
+
