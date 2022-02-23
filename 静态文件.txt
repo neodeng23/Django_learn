@@ -13,3 +13,5 @@
             os.path.join(BASE_DIR, "static")
         )
 
+
+模板中访问静态文件 - img标签为例
