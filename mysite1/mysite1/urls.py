@@ -15,10 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, reverse
 from . import views
 
 """
+    URL出现位置：
+        1.模板（html）中
+            <a href='url'>超链接</a>
+        2.视图函数中 302跳转
+            HttpResponseRedirect('url')
+            
+        书写规范
+            1.绝对地址
+            2.相对地址
+                1./开头的相对地址，浏览器会把当前地址栏的协议，ip和端口号加上这个地址，作为最终访问地址
+                2.没有/开头的相对地址，浏览器会根据当前url的最后一个/之前的内容，加上该相对地址，作为最终访问地址
+                {% url '别名' %}
+                {% url '别名' '参数值1' '参数2' %}
+                ex:
+                {% url 'pagen' '400' %}
+                {% url 'person' age='18' name='dlf' %}
 
     path()函数
         语法
@@ -26,6 +42,10 @@ from . import views
             1.route: str类型，匹配请求路径
             2.views: 指定路径所对应的视图处理函数的名称
             3.name: 为地址起别名，在模板中起地址反向解析时使用
+                反向解析是指在视图或模板中，用path定义的名称来动态查找或计算出相应的路由
+                根据path中的name=”关键词“传参给url确定了个唯一确定的名字，在模板或视图中，可以通过这个名字反向推断出此url的信息
+                可以调用用reverse方法进行反向解析，将别名转换为url
+                    reverse("别名", args=[], kwargs={})
     
     path转换器
         语法： <转换器类型：自定义名>
@@ -59,8 +79,9 @@ urlpatterns = [
     path('test_html1', views.test_html_1),
     path('test_html2', views.test_html_2),
     path('test_if_for', views.test_if_for),
-    path('base_index', views.base_view),
-    path('music_index', views.music_view),
+    path('base_index', views.base_view, name="base"),
+    path('music_index/<int:nm>', views.music_view, name='ms'),
     path('sport_index', views.sport_view),
+    path('test_static', views.test_static)
 
 ]

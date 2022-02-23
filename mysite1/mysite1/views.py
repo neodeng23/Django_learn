@@ -83,7 +83,7 @@ def base_view(request):
     return render(request, 'base.html', locals())
 
 
-def music_view(request):
+def music_view(request, nm):
 
     return render(request, 'music.html')
 
@@ -92,3 +92,7 @@ def sport_view(request):
 
     return render(request, 'sport.html')
 
+
+def test_static(request):
+
+    return render(request, 'test_static.html')

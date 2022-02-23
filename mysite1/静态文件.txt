@@ -1,0 +1,15 @@
+什么是静态文件
+    -如图片,CSS,JS,音频,视频
+
+静态文件配置 - settings.py
+    1.配置静态文件的访问路径【该配置默认存在】
+        通过哪个url地址找静态文件
+        STATIC_URL = '/static/'
+        说明
+            指定访问静态文件时，时需要通过/static/xxx或 http://127.0.0.1:8000/static/xxx【xxx表示具体的静态资源位置】
+    2.配置静态文件的存储路径STATICFILES_DIRS
+        STATICFILES_DIRS保存的是静态文件在服务器端的存储位置
+        STATICFILES_DIRS = (
+            os.path.join(BASE_DIR, "static")
+        )
+
