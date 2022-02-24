@@ -82,6 +82,7 @@ urlpatterns = [
     path('base_index', views.base_view, name="base"),
     path('music_index/<int:nm>', views.music_view, name='ms'),
     path('sport_index', views.sport_view),
-    path('test_static', views.test_static)
+
+    path('music/', include('music.urls')),  # 将应用中的子路由添加到主路由中
 
 ]

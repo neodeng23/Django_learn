@@ -15,3 +15,8 @@
 
 
 模板中访问静态文件 - img标签为例
+    通过{% static %}标签访问静态文件
+        1.加载static - {% load static %}
+        2.使用静态资源 - {% static '静态资源路径' %}
+        样例
+            <img src={"% static 'images/xxx.jpg' %"}>

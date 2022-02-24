@@ -107,5 +107,19 @@ URL
         </form>
 
 
+应用
+    应用在Django项目中是一个独立的业务模块，可以包括自己的路由，视图，模板，模型
+    创建应用：
+        1. python3 manage.py startapp xxx
+        2. 在settings.py的INSTALLED_APPS列表中配置安装此应用
+
+分布式路由
+    主路由配置文件(urls.py)可以不处理用户具体路由，主路由配置文件可以做请求的分发(分布式请求处理)，具体的请求可以由各自的应用来进行处理
+    在应用下手动创建urls.py文件，内容和主路由完全一样
+    应用下的templates和外层的templates都存在是，djange得查找模板规则
+        1.优先查找外层templates目录下的模板
+        2.按INSTALLED_APPS配置下的应用顺序逐层查找
+
+
 
 

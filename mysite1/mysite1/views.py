@@ -93,6 +93,7 @@ def sport_view(request):
     return render(request, 'sport.html')
 
 
-def test_static(request):
 
-    return render(request, 'test_static.html')
+
+
+
