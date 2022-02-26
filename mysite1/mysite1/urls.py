@@ -84,5 +84,6 @@ urlpatterns = [
     path('sport_index', views.sport_view),
 
     path('music/', include('music.urls')),  # 将应用中的子路由添加到主路由中
+    path('bookstore/', include('bookstore.urls')),
 
 ]

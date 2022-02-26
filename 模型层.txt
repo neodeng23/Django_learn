@@ -137,5 +137,3 @@ Meta类
     class Meta:
         db_table = 'xxx'
 
-
-创建数据：
