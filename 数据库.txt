@@ -99,3 +99,94 @@ Django Shell
     直接调用QuerySet的Update(属性=值)实现批量修改
         books = Book.objects.filter(id__gt=3)
         books.update(price=0)
+
+删除
+    单个数据
+        1.查找查询结果对应的一个数据对象
+        2.调用这个数据对象的delate方法实现删除
+
+        try:
+            auth = Author.objects.get(id=1)
+            auth.delete()
+        except:
+            print("删除失败")
+
+    批量删除
+        1.查找查询结果集中满足条件的全部QuerySet查询集合对象
+        2.调用查询集合对象的delete()方法实现删除
+
+        # 删除全部作者中，年龄大于65的全部信息
+        auths = Author.objects.filter(age__gt=65)
+        auths.delete
+
+    伪删除
+        通常不会轻易在业务里把数据真正删掉，取而代之的是做伪删除
+        即在表中添加一个布尔型字段(is_active)，默认是True;执行删除时，将欲删除数据的is_active字段置为False
+        注意  使用伪删除时，确保显示数据的地方，均加了is_active=True的过滤查询
+
+F对象
+    作用
+        通常是对数据库中的字段值在不获取的情况下进行操作
+        属于类属性（字段）之间的比较
+    语法
+        from django.db.models impor F
+        F('列名')
+    实例1
+        更新Book实例中所有的零售价涨10元
+        Book.objects.all().update(market_price=F('market_price')+10)
+        在SQL中会给出一个+10的请求
+
+        或
+        books=Book.objects.all()
+        for book in books:
+            book.market_price=book.market_price+10
+            book.save()
+        会先获取当前值，给值+10，再赋给这个值，当同一时间有多人操作的时候，会大家会先获取相同的值，进而会出现问题
+
+    实例2
+        列出零售价高于定价的书
+        from django.db.models import F
+        from bookstore.models import Book
+        books = Book.objects.filter(market_price__gt=F('price')
+
+        或
+        for book in books:
+            print(book.title....)
+
+Q对象
+    当在获取查询结果集，使用复杂的逻辑或|，逻辑非~等操作时，可以借助于Q对象进行操作
+    如:想找出定价低于20元或清华大学出版社的全部书
+        Book.objects.filter(Q(price__lt=20)|Q(pub="清华大学出版社"))
+
+    语法：
+        from django.db.models import Q
+        Q(条件1)|Q(条件2) # 条件1成立或条件2成立
+        Q(条件1)&Q(条件2) # 条件1和条件2同时成立
+        Q(条件1)&~Q(条件2) # 条件1成立或条件2不成立
+
+聚合查询
+    指对一个数据表中的一个字段的数据，进行部分或全部进行统计查询，查bookstore_book数据表中的全部数据的平均价格，查询所有数的总个数等，都要使用聚合查询
+    分为：
+        整表聚合
+            不带分组的聚合查询，是指导将全部数据进行集中统计查询
+            聚合函数[需要导入]：
+                导入方法：from django.db.models import *
+                聚合函数：Sum, Avg, Count, Max, Min
+            语法： MyModel.objects.aggregate(结果变量名=聚合函数('列'))
+                返回结果：结果变量名和值组成的字典，格式为: {"结果变量名" : 值}
+
+        分组聚合
+            分组聚合是指通过计算查询结果中每一个对象所关联的对象集合，从而得出总计值
+            从而得出总计值（也可以是平均值或总和），即为查询集的每一项生成聚合
+            语法：
+                QuerySet.annotate(结果变量名=聚合函数('列'))
+            返回值：
+                QuerySet
+
+原生数据库操作
+    Django也可以支持直接用sql语句的方式通信数据库
+    查询：使用MyModel.objects.raw()进行数据库查询操作
+    返回值，RawQuerySet集合对象（只支持基础操作，比如循环）
+    books = models.Book.objects.raw('select * from bookstore_book')
+
+
