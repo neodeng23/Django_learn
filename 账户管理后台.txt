@@ -1,0 +1,13 @@
+django提供了比较完善的后台管理数据库的接口，可供开发过程中调用和测试使用
+django会搜集所有已注册的模型类，为这些模型类提供数据管理界面，供开发者使用
+
+若要自己定义的模型类也能在/admin后台管理界面中显示和管理，需要将自己的类注册到后台管理界面
+
+注册步骤：
+    1.在应用app中的admin.py中导入注册要管理的模型models类，如from .models import Book
+    2.调用 admin.site.register方法进行注册，如admin.site.register(自定义模型类)
+
+
+模型管理器类：
+    作用：为后台管理界面添加便于操作的新功能
+    说明：后台管理器类须继承自django.contrib.admin里的ModelAdmin类

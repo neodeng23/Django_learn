@@ -1,0 +1,16 @@
+一对一映射
+    class A(model.Model):
+        ...
+
+    class B(model.Model):
+        属性 = models.oneToOneField(A, on_delete=xxx)
+
+特殊字段选择项[必须]
+
+1.models.CASCADE 级联删除，Django模拟SQL约束ON DELETE CASCADE行为，并删除包括ForeignKey对象
+
+2.models.PROTECT 抛出ProtectedError 以阻止被引用对象的删除；等同于mysql默认的RESTRICT
+
+3.SET_NULL设置Foreignkey null; 需要指定null=True
+
+4.SET_DEFAULT 将ForeignKey设置为其默认值;必须设置ForeignKey的默认值
